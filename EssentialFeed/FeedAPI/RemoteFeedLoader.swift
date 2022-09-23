@@ -17,8 +17,8 @@ public enum HTTPClientResult {
 }
 
 public final class RemoteFeedLoader {
-    let url: URL
-    let client: HTTPClient
+    private let url: URL
+    private let client: HTTPClient
     
     public enum Error: Swift.Error {
         case connectivity
