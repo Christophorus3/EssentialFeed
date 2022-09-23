@@ -15,6 +15,25 @@ class RemoteFeedLoaderTests: XCTestCase {
         XCTAssertTrue(client.requestedURLs.isEmpty)
     }
     
+    func test_load_requestDataFromURL() {
+        let url = URL(string: "https://a-given-url.com")!
+        let (sut, client) = makeSUT(url: url)
+        
+        sut.load() { _ in }
+        
+        XCTAssertEqual(client.requestedURLs, [url])
+    }
+    
+    func test_loadTwice_requestDataFromURL() {
+        let url = URL(string: "https://a-given-url.com")!
+        let (sut, client) = makeSUT(url: url)
+        
+        sut.load() { _ in }
+        sut.load() { _ in }
+        
+        XCTAssertEqual(client.requestedURLs, [url,url])
+    }
+    
     func test_load_errorOnClientError() {
         let (sut, client) = makeSUT()
         
@@ -37,27 +56,20 @@ class RemoteFeedLoaderTests: XCTestCase {
             
             client.complete(withStatusCode: code, at: index)
             
-            XCTAssertEqual(capturedErrors, [.invalid])
+            XCTAssertEqual(capturedErrors, [.invalidData])
         }
     }
     
-    func test_load_requestDataFromURL() {
-        let url = URL(string: "https://a-given-url.com")!
-        let (sut, client) = makeSUT(url: url)
+    func test_load_deliversErrorOnHTTP200AndInvalidJSON() {
+        let (sut, client) = makeSUT()
         
-        sut.load() { _ in }
+        var capturedErrors = [RemoteFeedLoader.Error]()
+        sut.load { capturedErrors.append($0) }
         
-        XCTAssertEqual(client.requestedURLs, [url])
-    }
-    
-    func test_loadTwice_requestDataFromURL() {
-        let url = URL(string: "https://a-given-url.com")!
-        let (sut, client) = makeSUT(url: url)
+        let invalidJSON = Data("invalid json".utf8)
+        client.complete(withStatusCode: 200, data: invalidJSON)
         
-        sut.load() { _ in }
-        sut.load() { _ in }
-        
-        XCTAssertEqual(client.requestedURLs, [url,url])
+        XCTAssertEqual(capturedErrors, [.invalidData])
     }
     
     // MARK: - Helpers
@@ -84,12 +96,14 @@ class RemoteFeedLoaderTests: XCTestCase {
             messages[index].completion(.failure(error))
         }
         
-        func complete(withStatusCode statusCode: Int = 0, at index: Int = 0) {
+        func complete(withStatusCode statusCode: Int = 0,
+                      data: Data = Data(),
+                      at index: Int = 0) {
             let response = HTTPURLResponse(url: requestedURLs[index],
                                            statusCode: statusCode,
                                            httpVersion: nil,
                                            headerFields: nil)!
-            messages[index].completion(.success(response))
+            messages[index].completion(.success(data, response))
         }
     }
 }
