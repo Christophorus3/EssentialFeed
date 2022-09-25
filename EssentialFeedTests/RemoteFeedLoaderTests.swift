@@ -52,7 +52,8 @@ class RemoteFeedLoaderTests: XCTestCase {
         let samples = [199, 201, 300, 400, 500]
         samples.enumerated().forEach { index, code in
             expect(sut, toCompleteWith: .failure(.invalidData), when: {
-                client.complete(withStatusCode: code, at: index)
+                let json = makeItemsJSON([])
+                client.complete(withStatusCode: code, data: json, at: index)
             })
         }
     }
@@ -83,28 +84,15 @@ class RemoteFeedLoaderTests: XCTestCase {
     func test_load_deliversItemsOnHTTP200AndJSONItems() {
         let (sut, client) = makeSUT()
         
-        let item1 = FeedItem(id: UUID(), description: nil, location: nil, imageURL: URL(string: "https://a-url.com")!)
-        let item1JSON = [
-            "id": item1.id.uuidString,
-            "image": item1.imageURL.absoluteString
-        ]
+        let item1 = makeItem(id: UUID(), imageURL: URL(string: "https://a-url.com")!)
         
-        let item2 = FeedItem(id: UUID(), description: "a description", location: "a location", imageURL: URL(string: "https://another-url.com")!)
-        let item2JSON = [
-            "id": item2.id.uuidString,
-            "description": item2.description,
-            "location": item2.location,
-            "image": item2.imageURL.absoluteString
-        ]
+        let item2 = makeItem(id: UUID(), description: "a description", location: "a location", imageURL: URL(string: "https://another-url.com")!)
         
-        let items = [item1, item2]
+        let items = [item1.model, item2.model]
         
-        let itemsJSON = [
-            "items": [item1JSON, item2JSON]
-        ]
         
-        expect(sut, toCompleteWith: .success([item1, item2]), when: {
-            let json = try! JSONSerialization.data(withJSONObject: itemsJSON)
+        expect(sut, toCompleteWith: .success(items), when: {
+            let json = makeItemsJSON([item1.json, item2.json])
             client.complete(withStatusCode: 200, data: json)
         })
     }
@@ -112,10 +100,35 @@ class RemoteFeedLoaderTests: XCTestCase {
     // MARK: - Helpers
     
     private func makeSUT(url: URL = URL(string: "https://a-url.com")!,
-                 client: HTTPClient = HTTPClientSpy()) -> (sut: RemoteFeedLoader, client: HTTPClientSpy) {
+                         client: HTTPClient = HTTPClientSpy()) -> (sut: RemoteFeedLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
         let sut = RemoteFeedLoader(url: url, client: client)
         return (sut, client)
+    }
+    
+    private func makeItem(id: UUID,
+                          description: String? = nil,
+                          location: String? = nil,
+                          imageURL: URL) -> (model: FeedItem, json: [String: Any]) {
+        let item = FeedItem(id: id,
+                            description: description,
+                            location: location,
+                            imageURL: imageURL)
+        let json =  [
+            "id": id.uuidString,
+            "description": description,
+            "location": location,
+            "image": imageURL.absoluteString
+        ].reduce(into: [String: Any]()) { (accumulated, element) in
+            if let value = element.value { accumulated[element.key] = value }
+        }
+        
+        return (item, json)
+    }
+    
+    private func makeItemsJSON(_ items: [[String: Any]]) -> Data {
+        let itemsJSON = ["items": items]
+        return try! JSONSerialization.data(withJSONObject: itemsJSON)
     }
     
     private func expect(_ sut: RemoteFeedLoader,
@@ -147,7 +160,7 @@ class RemoteFeedLoaderTests: XCTestCase {
         }
         
         func complete(withStatusCode statusCode: Int = 0,
-                      data: Data = Data(),
+                      data: Data,
                       at index: Int = 0) {
             let response = HTTPURLResponse(url: requestedURLs[index],
                                            statusCode: statusCode,
