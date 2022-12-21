@@ -105,7 +105,7 @@ Given the customer doesn't have connectivity
 ### Cache Feed Use Case
 
 #### Data:
-- Feed items
+* Feed items
 
 #### Primary course (happy path):
 1. Execute "Save Feed Items" command with above data.
