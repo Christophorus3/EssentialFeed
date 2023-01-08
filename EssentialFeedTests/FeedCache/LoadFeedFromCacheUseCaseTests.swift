@@ -92,7 +92,7 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
-    func test_load_doesNotDeletesCacheOnLessThanSevenDaysOldCache() {
+    func test_load_hasNoSideEffectsOnLessThanSevenDaysOldCache() {
         let feed = uniqueImageFeed()
         let fixedCurrentDate = Date()
         let lessThanSevenDaysOldTimestamp = fixedCurrentDate.adding(days: -7).adding(seconds: 1)
@@ -190,15 +190,5 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         let models = [uniqueImage(), uniqueImage(), uniqueImage()]
         let local = models.map { LocalFeedImage(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.url) }
         return (models, local)
-    }
-}
-
-private extension Date {
-    func adding(days: Int) -> Date {
-        Calendar.current.date(byAdding: .day, value: days, to: self)!
-    }
-    
-    func adding(seconds: TimeInterval) -> Date {
-        self + seconds
     }
 }
