@@ -29,6 +29,7 @@
 		C54F039C2954659E00621546 /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54F039B2954659E00621546 /* FeedStore.swift */; };
 		C557B10228E9CF7600A93348 /* feed-test.json in Resources */ = {isa = PBXBuildFile; fileRef = C557B10128E9CF7600A93348 /* feed-test.json */; };
 		C5B3770029537908007C6E0A /* LocalFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B376FF29537908007C6E0A /* LocalFeedLoader.swift */; };
+		C5F29469296AE19F00C33BAB /* ValidateFeedCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F29468296AE19F00C33BAB /* ValidateFeedCacheUseCaseTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		C54F039B2954659E00621546 /* FeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStore.swift; sourceTree = "<group>"; };
 		C557B10128E9CF7600A93348 /* feed-test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "feed-test.json"; sourceTree = "<group>"; };
 		C5B376FF29537908007C6E0A /* LocalFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedLoader.swift; sourceTree = "<group>"; };
+		C5F29468296AE19F00C33BAB /* ValidateFeedCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateFeedCacheUseCaseTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +177,7 @@
 				C52A394429567881006AB6DC /* Helpers */,
 				C51D3F8A291FE52500C8CEE4 /* CacheFeedUseCaseTests.swift */,
 				C52A394229567666006AB6DC /* LoadFeedFromCacheUseCaseTests.swift */,
+				C5F29468296AE19F00C33BAB /* ValidateFeedCacheUseCaseTests.swift */,
 			);
 			path = FeedCache;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5F29469296AE19F00C33BAB /* ValidateFeedCacheUseCaseTests.swift in Sources */,
 				9E87AEFA27BED66100D5E403 /* LoadFeedFromRemoteUseCaseTests.swift in Sources */,
 				C548247828E8AB9E00956C27 /* XCTestCase+MemoryTracking.swift in Sources */,
 				C52A39462956788D006AB6DC /* FeedStoreSpy.swift in Sources */,
