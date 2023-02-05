@@ -19,14 +19,20 @@ func uniqueImageFeed() -> (models: [FeedImage], local: [LocalFeedImage]) {
 }
 
 extension Date {
-    func minusFeedCacheMaxAge() -> Date {
-        return adding(days: -7)
+    private var maxCacheAgeInDays: Int {
+        7
     }
     
-    func adding(days: Int) -> Date {
+    func minusFeedCacheMaxAge() -> Date {
+        return adding(days: -maxCacheAgeInDays)
+    }
+    
+    private func adding(days: Int) -> Date {
         Calendar.current.date(byAdding: .day, value: days, to: self)!
     }
-    
+}
+
+extension Date {
     func adding(seconds: TimeInterval) -> Date {
         self + seconds
     }
