@@ -74,8 +74,12 @@ class CodableFeedStore {
             return completion(nil)
         }
         
-        try! FileManager.default.removeItem(at: storeURL)
-        return completion(nil)
+        do {
+            try FileManager.default.removeItem(at: storeURL)
+            return completion(nil)
+        } catch {
+            return completion(error)
+        }
     }
 }
 
@@ -186,10 +190,21 @@ final class CodableFeedStoreTests: XCTestCase {
         XCTAssertNil(deletionError, "Expected no error on deletion of non empty store")
     }
     
+    func test_delete_deliversErrorOnDeletionError() {
+        let sut = makeSUT(storeURL: nonDeletableURL)
+        let deletionError: Error?
+        
+        deletionError = deleteStore(from: sut)
+        
+        XCTAssertNotNil(deletionError, "Expected error on deletion error (no permission)")
+    }
+    
     // MARK: - Helpers
     
     private let testSpecificStoreURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
         .first!.appendingPathComponent("\(type(of: self)).store")
+    
+    private let nonDeletableURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
     
     private func makeSUT(storeURL: URL? = nil, file: StaticString = #file, line: UInt = #line) -> CodableFeedStore {
         let sut = CodableFeedStore(storeURL: storeURL ?? testSpecificStoreURL)
