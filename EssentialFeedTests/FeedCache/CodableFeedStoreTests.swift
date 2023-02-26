@@ -58,11 +58,15 @@ class CodableFeedStore {
     }
     
     func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping FeedStore.InsertionCompletion) {
-        let encoder = JSONEncoder()
-        let store = Store(feed: feed.map(CodableFeedImage.init), timestamp: timestamp)
-        let encoded = try! encoder.encode(store)
-        try! encoded.write(to: storeURL)
-        return completion(nil)
+        do {
+            let encoder = JSONEncoder()
+            let store = Store(feed: feed.map(CodableFeedImage.init), timestamp: timestamp)
+            let encoded = try encoder.encode(store)
+            try encoded.write(to: storeURL)
+            return completion(nil)
+        } catch {
+            return completion(error)
+        }
     }
 }
 
@@ -139,6 +143,17 @@ final class CodableFeedStoreTests: XCTestCase {
         XCTAssertNil(latestInsertionError, "Expected to override store successfully")
         
         expect(sut, toRetrieve: .found(feed: latestFeed, timestamp: latestTimestamp))
+    }
+    
+    func test_insert_deliversErrorOnInsertionError() {
+        let invalidURL = URL(string: "invalid://test-url")
+        let sut = makeSUT(storeURL: invalidURL)
+        let feed = uniqueImageFeed().local
+        let timestamp = Date()
+        
+        let error = insert((feed, timestamp), to: sut)
+        
+        XCTAssertNotNil(error, "Expected insertion error on invalid url")
     }
     
     // MARK: - Helpers
