@@ -73,6 +73,9 @@ class CodableFeedStore {
         guard FileManager.default.fileExists(atPath: storeURL.path) else {
             return completion(nil)
         }
+        
+        try! FileManager.default.removeItem(at: storeURL)
+        return completion(nil)
     }
 }
 
@@ -170,7 +173,18 @@ final class CodableFeedStoreTests: XCTestCase {
         XCTAssertNil(deletionError, "Expected no error on deletion of empty store")
     }
     
-    
+    func test_delete_emptiesPreviouslyInsertedStore() {
+        let sut = makeSUT()
+        let feed = uniqueImageFeed().local
+        let timestamp = Date()
+        let deletionError: Error?
+        
+        insert((feed, timestamp), to: sut)
+        deletionError = deleteStore(from: sut)
+        
+        expect(sut, toRetrieve: .empty)
+        XCTAssertNil(deletionError, "Expected no error on deletion of non empty store")
+    }
     
     // MARK: - Helpers
     
