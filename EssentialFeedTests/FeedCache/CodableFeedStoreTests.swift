@@ -80,7 +80,7 @@ final class CodableFeedStoreTests: XCTestCase {
     }
 
     func test_retrieve_devliversEmptyOnEmptyStore() {
-        let sut = CodableFeedStore()
+        let sut = makeSUT()
         let exp = expectation(description: "wait for store retrieval")
         
         sut.retrieve() { result in
@@ -98,7 +98,7 @@ final class CodableFeedStoreTests: XCTestCase {
     }
     
     func test_retrieve_hasNoSideEffectsOnEmptyStore() {
-        let sut = CodableFeedStore()
+        let sut = makeSUT()
         let exp = expectation(description: "wait for store retrieval")
         
         sut.retrieve() { firstResult in
@@ -118,7 +118,7 @@ final class CodableFeedStoreTests: XCTestCase {
     }
 
     func test_retrieveAfterInsertingToEmptyStore_deliversInsertedValues() {
-        let sut = CodableFeedStore()
+        let sut = makeSUT()
         let feed = uniqueImageFeed().local
         let timestamp = Date()
         let exp = expectation(description: "wait for store retrieval")
@@ -140,6 +140,12 @@ final class CodableFeedStoreTests: XCTestCase {
             }
         }
         wait(for: [exp], timeout: 1.0)
+    }
+    
+    // MARK: - Helpers
+    
+    private func makeSUT() -> CodableFeedStore {
+        CodableFeedStore()
     }
 
 }
