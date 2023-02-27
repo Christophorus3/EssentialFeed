@@ -8,36 +8,7 @@
 import XCTest
 import EssentialFeed
 
-protocol FeedStoreSpecs {
-    func test_retrieve_devliversEmptyOnEmptyStore()
-    func test_retrieve_hasNoSideEffectsOnEmptyStore()
-    func test_retrieve_deliversFoundValuesOnNonEmptyStore()
-    func test_retrieve_hasNoSideEffectsOnNonEmptyStore()
-    
-    func test_insert_overridesPreviouslyInsertedStoreValues()
-    
-    func test_delete_hasNoSideEffectsOnEmptyStore()
-    func test_delete_emptiesPreviouslyInsertedStore()
-    
-    func test_storeSideEffects_runSerially()
-}
-
-protocol FailableRetrieveFeedStoreSpecs {
-    func test_retrieve_deliversErrorOnRetrievalError()
-    func test_retrieve_hasNoSideEffectsOnFailure()
-}
-
-protocol FailableInsertFeedStoreSpecs {
-    func test_insert_deliversErrorOnInsertionError()
-    func test_insert_hasNoSideEffectsOnInsertionError()
-}
-
-protocol FailableDeleteFeedStoreSpecs {
-    func test_delete_deliversErrorOnDeletionError()
-    func test_delete_hasNoSideEffectsOnDeletionError()
-}
-
-final class CodableFeedStoreTests: XCTestCase {
+final class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
     override func setUp() {
         super.setUp()
         setupEmptyStoreState()
