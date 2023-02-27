@@ -8,6 +8,35 @@
 import XCTest
 import EssentialFeed
 
+protocol FeedStoreSpecs {
+    func test_retrieve_devliversEmptyOnEmptyStore()
+    func test_retrieve_hasNoSideEffectsOnEmptyStore()
+    func test_retrieve_deliversFoundValuesOnNonEmptyStore()
+    func test_retrieve_hasNoSideEffectsOnNonEmptyStore()
+    
+    func test_insert_overridesPreviouslyInsertedStoreValues()
+    
+    func test_delete_hasNoSideEffectsOnEmptyStore()
+    func test_delete_emptiesPreviouslyInsertedStore()
+    
+    func test_storeSideEffects_runSerially()
+}
+
+protocol FailableRetrieveFeedStoreSpecs {
+    func test_retrieve_deliversErrorOnRetrievalError()
+    func test_retrieve_hasNoSideEffectsOnFailure()
+}
+
+protocol FailableInsertFeedStoreSpecs {
+    func test_insert_deliversErrorOnInsertionError()
+    func test_insert_hasNoSideEffectsOnInsertionError()
+}
+
+protocol FailableDeleteFeedStoreSpecs {
+    func test_delete_deliversErrorOnDeletionError()
+    func test_delete_hasNoSideEffectsOnDeletionError()
+}
+
 final class CodableFeedStoreTests: XCTestCase {
     override func setUp() {
         super.setUp()
@@ -94,6 +123,17 @@ final class CodableFeedStoreTests: XCTestCase {
         XCTAssertNotNil(error, "Expected insertion error on invalid url")
     }
     
+    func test_insert_hasNoSideEffectsOnInsertionError() {
+        let invalidURL = URL(string: "invalid://test-url")
+        let sut = makeSUT(storeURL: invalidURL)
+        let feed = uniqueImageFeed().local
+        let timestamp = Date()
+        
+        insert((feed, timestamp), to: sut)
+        
+        expect(sut, toRetrieve: .empty)
+    }
+    
     func test_delete_hasNoSideEffectsOnEmptyStore() {
         let sut = makeSUT()
         
@@ -122,6 +162,15 @@ final class CodableFeedStoreTests: XCTestCase {
         deletionError = deleteStore(from: sut)
         
         XCTAssertNotNil(deletionError, "Expected error on deletion error (no permission)")
+        expect(sut, toRetrieve: .empty)
+    }
+    
+    func test_delete_hasNoSideEffectsOnDeletionError() {
+        let sut = makeSUT(storeURL: nonDeletableURL)
+        
+        deleteStore(from: sut)
+        
+        expect(sut, toRetrieve: .empty)
     }
     
     func test_storeSideEffects_runSerially() {
@@ -165,7 +214,9 @@ final class CodableFeedStoreTests: XCTestCase {
     }
     
     @discardableResult
-    private func deleteStore(from sut: FeedStore) -> Error? {
+    private func deleteStore(from sut: FeedStore,
+                             file: StaticString = #file,
+                             line: UInt = #line) -> Error? {
         var deletionError: Error?
         let exp = expectation(description: "wait for store deletion")
         
@@ -179,7 +230,10 @@ final class CodableFeedStoreTests: XCTestCase {
     }
     
     @discardableResult
-    private func insert(_ store: (feed: [LocalFeedImage], timestamp: Date), to sut: FeedStore) -> Error? {
+    private func insert(_ store: (feed: [LocalFeedImage], timestamp: Date),
+                        to sut: FeedStore,
+                        file: StaticString = #file,
+                        line: UInt = #line) -> Error? {
         var insertionError: Error?
         let exp = expectation(description: "wait for store insertion")
         
