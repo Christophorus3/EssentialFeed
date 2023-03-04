@@ -33,6 +33,12 @@ class CoreDataFeedStoreTests: XCTestCase, FeedStoreSpecs {
         assertThatRetrieveHasNoSideEffectsOnNonEmptyStore(on: sut)
     }
     
+    func test_insert_deliversNoErrorOnEmptyStore() {
+        let sut = makeSUT()
+        
+        assertThatInsertDeliversNoErrorOnEmptyStore(on: sut)
+    }
+    
     func test_insert_overridesPreviouslyInsertedStoreValues() {
         
     }

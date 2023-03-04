@@ -61,6 +61,12 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
         expect(sut, toRetrieveTwice: .failure(anyNSError()))
     }
     
+    func test_insert_deliversNoErrorOnEmptyStore() {
+        let sut = makeSUT()
+        
+        assertThatInsertDeliversNoErrorOnEmptyStore(on: sut)
+    }
+    
     func test_insert_overridesPreviouslyInsertedStoreValues() {
         let sut = makeSUT()
         
