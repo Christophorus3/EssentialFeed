@@ -51,6 +51,12 @@ class CoreDataFeedStoreTests: XCTestCase, FeedStoreSpecs {
         assertThatInsertOverridesPreviouslyInsertedStoreValues(on: sut)
     }
     
+    func test_delete_deliversNoErrorOnEmptyStore() {
+        let sut = makeSUT()
+        
+        assertThatDeleteDeliversNoErrorOnEmptyStore(on: sut)
+    }
+    
     func test_delete_hasNoSideEffectsOnEmptyStore() {
         
     }

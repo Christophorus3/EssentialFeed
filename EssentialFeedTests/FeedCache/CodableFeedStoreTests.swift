@@ -101,6 +101,12 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
         expect(sut, toRetrieve: .empty)
     }
     
+    func test_delete_deliversNoErrorOnEmptyStore() {
+        let sut = makeSUT()
+        
+        assertThatDeleteDeliversNoErrorOnEmptyStore(on: sut)
+    }
+    
     func test_delete_hasNoSideEffectsOnEmptyStore() {
         let sut = makeSUT()
         
