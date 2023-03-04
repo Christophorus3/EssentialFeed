@@ -35,7 +35,7 @@ public final class CoreDataFeedStore: FeedStore {
         let context = self.context
         context.perform {
             do {
-                let managedStore = ManagedStore(context: context)
+                let managedStore = try ManagedStore.newUniqueInstance(in: context)
                 managedStore.timestamp = timestamp
                 managedStore.feed = ManagedFeedImage.images(from: feed, in: context)
                 
@@ -94,6 +94,11 @@ private class ManagedStore: NSManagedObject {
     
     var localFeed: [LocalFeedImage] {
         return feed.compactMap { ($0 as? ManagedFeedImage)?.local }
+    }
+    
+    static func newUniqueInstance(in context: NSManagedObjectContext) throws -> ManagedStore {
+        try find(in: context).map(context.delete)
+        return ManagedStore(context: context)
     }
     
     static func find(in context: NSManagedObjectContext) throws -> ManagedStore? {

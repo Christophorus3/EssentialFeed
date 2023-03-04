@@ -76,15 +76,7 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
     func test_insert_overridesPreviouslyInsertedStoreValues() {
         let sut = makeSUT()
         
-        let firstInsertionError = insert((uniqueImageFeed().local, Date()), to: sut)
-        XCTAssertNil(firstInsertionError, "Expected to insert store successfully")
-        
-        let latestFeed = uniqueImageFeed().local
-        let latestTimestamp = Date()
-        let latestInsertionError = insert((latestFeed, latestTimestamp), to: sut)
-        XCTAssertNil(latestInsertionError, "Expected to override store successfully")
-        
-        expect(sut, toRetrieve: .found(feed: latestFeed, timestamp: latestTimestamp))
+        assertThatInsertOverridesPreviouslyInsertedStoreValues(on: sut)
     }
     
     func test_insert_deliversErrorOnInsertionError() {
