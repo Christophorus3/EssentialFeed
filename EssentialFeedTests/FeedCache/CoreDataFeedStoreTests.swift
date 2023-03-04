@@ -12,11 +12,13 @@ class CoreDataFeedStoreTests: XCTestCase, FeedStoreSpecs {
     func test_retrieve_devliversEmptyOnEmptyStore() {
         let sut = makeSUT()
         
-        assertThatRetrieveDeliversEmptyOnEmptyCache(on: sut)
+        assertThatRetrieveDeliversEmptyOnEmptyStore(on: sut)
     }
     
     func test_retrieve_hasNoSideEffectsOnEmptyStore() {
+        let sut = makeSUT()
         
+        assertThatRetrieveHasNoSideEffectsOnEmptyStore(on: sut)
     }
     
     func test_retrieve_deliversFoundValuesOnNonEmptyStore() {
