@@ -110,9 +110,7 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
     func test_delete_hasNoSideEffectsOnEmptyStore() {
         let sut = makeSUT()
         
-        let deletionError = deleteStore(from: sut)
-        
-        XCTAssertNil(deletionError, "Expected no error on deletion of empty store")
+        assertThatDeleteHasNoSideEffectsOnEmptyStore(on: sut)
     }
     
     func test_delete_emptiesPreviouslyInsertedStore() {
