@@ -11,7 +11,9 @@ import CoreData
 internal class ManagedStore: NSManagedObject {
     @NSManaged var timestamp: Date
     @NSManaged var feed: NSOrderedSet
-    
+}
+
+extension ManagedStore {
     var localFeed: [LocalFeedImage] {
         return feed.compactMap { ($0 as? ManagedFeedImage)?.local }
     }
