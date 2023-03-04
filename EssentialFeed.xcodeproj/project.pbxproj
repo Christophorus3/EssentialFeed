@@ -256,23 +256,15 @@
 		C5B376FE295378F0007C6E0A /* FeedCache */ = {
 			isa = PBXGroup;
 			children = (
-				C5C6914829B34D8B005AE805 /* CoreData */,
 				C5B376FF29537908007C6E0A /* LocalFeedLoader.swift */,
 				C54F039B2954659E00621546 /* FeedStore.swift */,
 				C52A394029566A1C006AB6DC /* LocalFeedImage.swift */,
 				C5673EB82990382800CD8184 /* FeedCachePolicy.swift */,
 				C592975B29ABA9A90001ABD6 /* CodableFeedStore.swift */,
 				C5C6913B29B34766005AE805 /* CoreDataFeedStore.swift */,
-			);
-			path = FeedCache;
-			sourceTree = "<group>";
-		};
-		C5C6914829B34D8B005AE805 /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
 				C5C6913D29B34A9E005AE805 /* FeedStore.xcdatamodeld */,
 			);
-			path = CoreData;
+			path = FeedCache;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
