@@ -121,15 +121,8 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
     
     func test_delete_emptiesPreviouslyInsertedStore() {
         let sut = makeSUT()
-        let feed = uniqueImageFeed().local
-        let timestamp = Date()
-        let deletionError: Error?
         
-        insert((feed, timestamp), to: sut)
-        deletionError = deleteStore(from: sut)
-        
-        expect(sut, toRetrieve: .empty)
-        XCTAssertNil(deletionError, "Expected no error on deletion of non empty store")
+        assertThatDeleteEmptiesPreviouslyInsertedStore(on: sut)
     }
     
     func test_delete_deliversErrorOnDeletionError() {
