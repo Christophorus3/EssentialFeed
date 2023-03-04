@@ -33,12 +33,8 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
 
     func test_retrieve_deliversFoundValuesOnNonEmptyStore() {
         let sut = makeSUT()
-        let feed = uniqueImageFeed().local
-        let timestamp = Date()
         
-        insert((feed, timestamp), to: sut)
-        
-        expect(sut, toRetrieve: .found(feed: feed, timestamp: timestamp))
+        assertThatRetrieveDeliversFoundValuesOnNonEmptyStore(on: sut)
     }
     
     func test_retrieve_hasNoSideEffectsOnNonEmptyStore() {

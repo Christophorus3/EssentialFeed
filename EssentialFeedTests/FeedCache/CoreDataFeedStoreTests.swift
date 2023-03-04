@@ -22,7 +22,9 @@ class CoreDataFeedStoreTests: XCTestCase, FeedStoreSpecs {
     }
     
     func test_retrieve_deliversFoundValuesOnNonEmptyStore() {
+        let sut = makeSUT()
         
+        assertThatRetrieveDeliversFoundValuesOnNonEmptyStore(on: sut)
     }
     
     func test_retrieve_hasNoSideEffectsOnNonEmptyStore() {
