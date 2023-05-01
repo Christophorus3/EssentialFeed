@@ -71,9 +71,9 @@ public class CodableFeedStore: FeedStore {
                 let store = Store(feed: feed.map(CodableFeedImage.init), timestamp: timestamp)
                 let encoded = try encoder.encode(store)
                 try encoded.write(to: storeURL)
-                return completion(nil)
+                return completion(.success(Void()))
             } catch {
-                return completion(error)
+                return completion(.failure(error))
             }
         }
     }
@@ -83,14 +83,14 @@ public class CodableFeedStore: FeedStore {
         let storeURL = self.storeURL
         queue.async(flags: .barrier) {
             guard FileManager.default.fileExists(atPath: storeURL.path) else {
-                return completion(nil)
+                return completion(.success(Void()))
             }
             
             do {
                 try FileManager.default.removeItem(at: storeURL)
-                return completion(nil)
+                return completion(.success(Void()))
             } catch {
-                return completion(error)
+                return completion(.failure(error))
             }
         }
     }
