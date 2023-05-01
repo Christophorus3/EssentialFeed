@@ -98,7 +98,7 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
         
         insert((feed, timestamp), to: sut)
         
-        expect(sut, toRetrieve: .empty)
+        expect(sut, toRetrieve: .success(.empty))
     }
     
     func test_delete_deliversNoErrorOnEmptyStore() {
@@ -132,7 +132,7 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
         deletionError = deleteStore(from: sut)
         
         XCTAssertNotNil(deletionError, "Expected error on deletion error (no permission)")
-        expect(sut, toRetrieve: .empty)
+        expect(sut, toRetrieve: .success(.empty))
     }
     
     func test_delete_hasNoSideEffectsOnDeletionError() {
@@ -140,7 +140,7 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
         
         deleteStore(from: sut)
         
-        expect(sut, toRetrieve: .empty)
+        expect(sut, toRetrieve: .success(.empty))
     }
     
     func test_storeSideEffects_runSerially() {

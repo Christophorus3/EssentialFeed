@@ -20,9 +20,9 @@ public final class CoreDataFeedStore: FeedStore {
         perform { context in
             do {
                 if let store = try ManagedStore.find(in: context) {
-                    completion(.found(feed: store.localFeed, timestamp: store.timestamp))
+                    completion(.success(.found(feed: store.localFeed, timestamp: store.timestamp)))
                 } else {
-                    completion(.empty)
+                    completion(.success(.empty))
                 }
             } catch {
                 completion(.failure(error))
