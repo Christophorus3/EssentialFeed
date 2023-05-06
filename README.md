@@ -134,7 +134,7 @@ Given the customer doesn't have connectivity
 1. System delivers error.
 
 ## UX Goals for Feed UI experience
-- [ ] Load Feed automatically when view is presented
+- [x] Load Feed automatically when view is presented
 - [ ] Allow customer to manually reload feed (pull to refresh)
 - [ ] Show a loading indicator while loading feed
 - [ ] Render all loaded feed itmes (location, image, description)
