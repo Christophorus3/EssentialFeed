@@ -136,7 +136,7 @@ Given the customer doesn't have connectivity
 ## UX Goals for Feed UI experience
 - [x] Load Feed automatically when view is presented
 - [x] Allow customer to manually reload feed (pull to refresh)
-- [ ] Show a loading indicator while loading feed
+- [x] Show a loading indicator while loading feed
 - [ ] Render all loaded feed itmes (location, image, description)
 - [ ] Image loading experience
 	- [ ] Load when image view is visible (on screen)
