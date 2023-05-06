@@ -154,7 +154,7 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
     private let testSpecificStoreURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
         .first!.appendingPathComponent("\(type(of: self)).store")
     
-    private let nonDeletableURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+    private let nonDeletableURL = FileManager.default.urls(for: .cachesDirectory, in: .systemDomainMask).first!
     
     private func makeSUT(storeURL: URL? = nil, file: StaticString = #file, line: UInt = #line) -> FeedStore {
         let sut = CodableFeedStore(storeURL: storeURL ?? testSpecificStoreURL)
