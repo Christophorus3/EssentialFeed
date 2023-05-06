@@ -47,7 +47,7 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
         let storeURL = testSpecificStoreURL
         let sut = makeSUT(storeURL: storeURL)
         
-        try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
+        try? "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
         
         expect(sut, toRetrieve: .failure(anyNSError()))
     }
@@ -154,7 +154,7 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
     private let testSpecificStoreURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
         .first!.appendingPathComponent("\(type(of: self)).store")
     
-    private let nonDeletableURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+    private let nonDeletableURL = FileManager.default.urls(for: .cachesDirectory, in: .systemDomainMask).first!
     
     private func makeSUT(storeURL: URL? = nil, file: StaticString = #file, line: UInt = #line) -> FeedStore {
         let sut = CodableFeedStore(storeURL: storeURL ?? testSpecificStoreURL)
