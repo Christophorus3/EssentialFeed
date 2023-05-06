@@ -17,6 +17,7 @@
 		C5016C2B29B3B85900C11B6C /* FeedCacheTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F2946C296AF67200C33BAB /* FeedCacheTestHelpers.swift */; };
 		C5016C2C29B3B99E00C11B6C /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F2946F296AF7B600C33BAB /* SharedTestHelpers.swift */; };
 		C518E65E2A064C1B008EEEB8 /* EssentialFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AEEA502A064ACF003C2EEF /* EssentialFeediOS.framework */; };
+		C518E6652A0664B9008EEEB8 /* FeedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C518E6642A0664B9008EEEB8 /* FeedViewControllerTests.swift */; };
 		C51D3F8B291FE52500C8CEE4 /* CacheFeedUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51D3F8A291FE52500C8CEE4 /* CacheFeedUseCaseTests.swift */; };
 		C52A393F295669C3006AB6DC /* RemoteFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52A393E295669C3006AB6DC /* RemoteFeedItem.swift */; };
 		C52A394129566A1C006AB6DC /* LocalFeedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52A394029566A1C006AB6DC /* LocalFeedImage.swift */; };
@@ -95,6 +96,7 @@
 		9E87AEF927BED66100D5E403 /* LoadFeedFromRemoteUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadFeedFromRemoteUseCaseTests.swift; sourceTree = "<group>"; };
 		9E87AEFE27D00E9100D5E403 /* RemoteFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoader.swift; sourceTree = "<group>"; };
 		C518E65A2A064C1B008EEEB8 /* EssentialFeediOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialFeediOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C518E6642A0664B9008EEEB8 /* FeedViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewControllerTests.swift; sourceTree = "<group>"; };
 		C51D3F8A291FE52500C8CEE4 /* CacheFeedUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheFeedUseCaseTests.swift; sourceTree = "<group>"; };
 		C52A393E295669C3006AB6DC /* RemoteFeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedItem.swift; sourceTree = "<group>"; };
 		C52A394029566A1C006AB6DC /* LocalFeedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedImage.swift; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 		C5AEEA5B2A064ACF003C2EEF /* EssentialFeediOSTests */ = {
 			isa = PBXGroup;
 			children = (
+				C518E6642A0664B9008EEEB8 /* FeedViewControllerTests.swift */,
 			);
 			path = EssentialFeediOSTests;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 					};
 					C518E6592A064C1B008EEEB8 = {
 						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1420;
 					};
 					C548247E28E8CF1600956C27 = {
 						CreatedOnToolsVersion = 14.0;
@@ -652,6 +656,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C518E6652A0664B9008EEEB8 /* FeedViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -948,16 +953,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CRC2Z2K6Q2;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = at.ccomp.EssentialFeediOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -967,11 +979,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CRC2Z2K6Q2;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = at.ccomp.EssentialFeediOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
